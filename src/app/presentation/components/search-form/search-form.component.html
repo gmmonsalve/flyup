@@ -1,0 +1,83 @@
+
+<form [formGroup]="searchCriteriaForm" (submit)="searchFlights()">
+    <fieldset class="fit-content rounded-10 search-container p-0 border-none">
+        <div class="card-rounded-50 fit-content ml-1 my-1 px-2">
+            <mat-radio-group aria-label="Select a type of trip" class="flex gap-3" formControlName="tripType">
+                <mat-radio-button value="round-trip">Round trip</mat-radio-button>
+                <mat-radio-button value="one-way">One Way</mat-radio-button>
+            </mat-radio-group>
+        </div>
+        <div class="flex align-items-center justify-content-center align-self-center gap-2 card-rounded-10 p-1">
+            <mat-form-field hideRequiredMarker>
+                <mat-label>Origin</mat-label>
+                <input matInput formControlName="origin"
+                aria-label="State"
+                [matAutocomplete]="origin">
+                <span matTextPrefix>
+                    <mat-icon>flight_takeoff</mat-icon>
+                </span>
+                <mat-autocomplete #origin="matAutocomplete" [displayWith]="formatAirportValue.bind(this)">
+                  @for (airport of airports; track airport) {
+                    <mat-option [value]="airport">
+                    <span>{{airport.city}} </span>
+                    <small>({{airport.country}}) |</small>
+                    <small> {{airport.code}}</small>
+                    </mat-option>
+                }
+                </mat-autocomplete>
+            </mat-form-field>
+            <mat-form-field hideRequiredMarker>
+                <mat-label>
+                    Destination
+                </mat-label>
+                <input matInput
+                aria-label="State"
+                formControlName="destination"
+                [matAutocomplete]="destination">
+                <span matTextPrefix> <mat-icon>flight_land</mat-icon></span>
+                <mat-autocomplete #destination="matAutocomplete" [displayWith]="formatAirportValue.bind(this)">
+                @for (airport of airports; track airport) {
+                    <mat-option [value]="airport">
+                    <span>{{airport.city}} </span>
+                    <small>({{airport.country}}) |</small>
+                    <small> {{airport.code}}</small>
+                    </mat-option>
+                }
+                </mat-autocomplete>
+            </mat-form-field>
+            <mat-form-field hideRequiredMarker>
+                <mat-label>
+                    Departure
+                </mat-label>
+                <input matInput [matDatepicker]="DeparturePicker" (focus)="DeparturePicker.open()" formControlName="departureDate">
+                <mat-datepicker-toggle matIconSuffix [for]="DeparturePicker">
+                </mat-datepicker-toggle>
+                <mat-datepicker #DeparturePicker disabled="false"></mat-datepicker>
+            </mat-form-field>
+            @if(showReturnDate){
+                <mat-form-field hideRequiredMarker>
+                    <mat-label>Return</mat-label>
+                    <input matInput [matDatepicker]="ReturnPicker" (focus)="ReturnPicker.open()" formControlName="returnDate">
+                    <mat-datepicker-toggle matIconSuffix [for]="ReturnPicker">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #ReturnPicker ></mat-datepicker>
+                </mat-form-field>
+            }
+            <mat-form-field hideRequiredMarker>
+                <mat-label>
+                    Passengers
+                </mat-label>
+                <mat-select formControlName="passengers">
+                    @for (number of passengers; track number) {
+                        <mat-option [value]="number">{{number}}</mat-option>
+                    }
+                </mat-select>
+                 <span matTextPrefix> <mat-icon>person_add</mat-icon></span>
+            </mat-form-field>
+            <button mat-flat-button id="search-button" color="accent" class="rounded-button" type="submit">Search</button>
+        </div>
+    </fieldset>
+</form>
+
+
+

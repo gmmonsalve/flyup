@@ -1,0 +1,12 @@
+.search-container{
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(8px);          
+    -webkit-backdrop-filter: blur(8px);   
+}
+
+#search-button{
+   padding: 2rem;
+    align-self: baseline;
+    font-size: 18px;
+    font-weight: 700;
+}
