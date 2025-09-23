@@ -4,11 +4,11 @@ import Seat from "./seat.model";
 import User  from "./user.model";
 
 export default interface Booking{
-    bookingHolder: User;
+    bookingHolder?: User;
     passengers: Passenger[];
     flights: Flight[];
     selectedSeats: Seat[];
     totalPrice: number;
-    status: 'PENDING' | 'CONFIRMED' | 'CANCELLED';
-    tripType: 'one-way' | 'round-trip'
+    status: 'FLIGHT_SELECTION'| 'RETURN_FLIGHT_SELECTION' | 'FLIGHT_SELECTED' | 'PASSENGER_SELECTED' | 'BOOKED' | 'CONFIRMED' | 'CANCELLED';
+    tripType: 'one-way' | 'round-trip';
 }
