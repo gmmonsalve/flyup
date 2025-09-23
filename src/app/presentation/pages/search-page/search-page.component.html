@@ -1,8 +1,19 @@
 <article class="flex h-100">
-    <section id="banner" class="flex justify-content-center">
+    <section id="banner" class="flex flex-column justify-content-center">
         <section class="align-self-center">
             <h1 class="fc-primary">Choose your next Adventure!</h1>
-            <search-form [airports]="airports$ | async" [passengers]="passengerOptions"></search-form>
+            <search-form [airports]="airports$ | async" [passengers]="passengerOptions" (search)="onSearch($event)"></search-form>
+              <div class="my-1 flex">
+                    @if(currentSearch$ | async; as search){
+                    
+                            <mat-chip-set aria-label="current search" class="my-1" (click)="onSearch(search)">
+                                <mat-chip color="accent">{{search.origin.city}} → {{search.destination.city}}  • {{search.passengers}} Passengers</mat-chip>
+                            </mat-chip-set>
+                            <button (click)="deleteRecentSearch()" class="align-self-center" mat-icon-button color="accent" aria-label="delete search">
+                                <mat-icon>cancel</mat-icon>
+                            </button>
+                    }
+                </div>
         </section>
     </section>
 </article>

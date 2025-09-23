@@ -5,26 +5,41 @@ import { Observable } from 'rxjs';
 import Airport from '@core/models/airport.model';
 import { AsyncPipe } from '@angular/common';
 import { SearchFacadeService } from '@app/abstraction/facades/search/search-facade.service';
+import { SearchCriteria } from '@app/core/models/search-criteria.model';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+
 
 @Component({
   selector: 'search-page',
   standalone: true,
-  imports: [SearchFormComponent, AsyncPipe],
+  imports: [SearchFormComponent, AsyncPipe, MatChipsModule, MatIconModule, MatButtonModule],
   providers: [],
   templateUrl: './search-page.component.html',
   styleUrl: './search-page.component.scss'
 })
 export default class SearchPageComponent implements OnInit {
 
-  private airportFacadeService = inject(AirportsFacadeService);
-  private searchFacadeService = inject(SearchFacadeService);
+  private _airportFacadeService = inject(AirportsFacadeService);
+  private _searchFacadeService = inject(SearchFacadeService);
 
-  airports$: Observable<Airport[]> | null = null;
+  airports$: Observable<Airport[]> | undefined;
+  currentSearch$: Observable<SearchCriteria | null> | null = null;
   passengerOptions: number[] = []
 
   ngOnInit(): void {
-    this.airports$ = this.airportFacadeService.getAirports()
-    this.passengerOptions = this.searchFacadeService.getPassengerOptionsList();
+    this.airports$ = this._airportFacadeService.getAirports()
+    this.passengerOptions = this._searchFacadeService.getPassengerOptionsList();
+    this.currentSearch$ = this._searchFacadeService.getSearchObservable();
+  }
+
+  onSearch(seachParams: SearchCriteria){
+    this._searchFacadeService.searchFlights(seachParams);
+  }
+
+  deleteRecentSearch(){
+    this._searchFacadeService.clearSearch();
   }
   
 
