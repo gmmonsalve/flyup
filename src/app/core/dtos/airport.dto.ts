@@ -1,4 +1,4 @@
-interface AirportData {
+export interface AirportData {
     iata_code: string;
     airport_name: string;
     location_city: string;

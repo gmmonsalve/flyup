@@ -1,14 +1,26 @@
 export interface SearchDTO{
-    origin: {
-        iataCode: string,
-        countryName: string
-    }
-    destination: {
-        iataCode: string,
-        countryName: string
-    }
+    origin: string;
+    destination: string;
     departureDate: string;
-    returnDate?: string;
     numberPassengers: number;
-    tripType: 'one-way' | 'round-trip';
+}
+
+export interface SearchResultDTO{
+    data: {
+        origin: {
+            iataCode: string,
+            city: string,
+        };
+        destination: {
+            iataCode: string,
+            city: string,
+        };
+        flights:{
+            id: string,
+            departureDate: {date: string, time: string};
+            arrivalDate: {date: string, time: string};
+            duration: string;
+            price: number;
+        }[]
+    }
 }
