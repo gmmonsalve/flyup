@@ -1,0 +1,33 @@
+<div class="card-rounded-10">
+    <div class="flex align-items-center">
+        <div class="p-2">
+            <h2 class="m-0 fs-4">{{flight?.departureDate?.time}}</h2>
+            <h3 class="m-0">{{flight?.origin?.code}}</h3>
+        </div>
+        <div class="line mx-1"></div>
+        <div class="flex flex-column justify-content-center gap-4 p-2">
+            <span>{{flight?.duration}}</span>
+            <span class="align-self-center"><mat-icon style="transform: rotate(90deg)">flight</mat-icon></span>
+            <div class="flex align-items-center">
+              <mat-icon color="accent">airplane_ticket</mat-icon>
+              <span>Flyup</span>
+            </div>
+        </div>
+        <div class="line mx-1"></div>
+        <div class="p-2">
+            <h2 class="m-0 fs-4">{{flight?.arrivalDate?.time}}</h2>
+            <h3 class="m-0">{{flight?.destination?.code}}</h3>
+        </div>
+        @if(selectable){
+            <div class="pricing-section rounded-10 p-2">
+            <small>Price:</small>
+            <div class="flex align-items-baseline">
+                    <small>COP</small>
+                    <h2 class="m-0 fs-5">{{flight?.price | currency:'':'symbol':'1.0-0' }}</h2>
+            </div>
+            <button mat-raised-button class="rounded-button w-100 mt-1" color="accent" (click)="onSelected(flight)">Select flight</button>
+        </div>
+        }
+    </div>
+</div>
+

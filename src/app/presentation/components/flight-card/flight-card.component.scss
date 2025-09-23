@@ -1,0 +1,12 @@
+.line {
+  flex-grow: 1; 
+  border-bottom: 2px dotted #333; /* línea punteada */
+  position: relative;
+  height: 2px;
+}
+
+.pricing-section{
+  background-color: #FAFAFA;
+  align-self: stretch;
+  flex: 0.5;
+}
