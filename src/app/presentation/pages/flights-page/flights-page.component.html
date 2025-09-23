@@ -1,0 +1,42 @@
+<article>
+
+  @if (booking) {
+    <section class="container flight-card mt-1">
+      <div class="flex gap-2">
+        <mat-icon class="align-self-center">flight_takeoff</mat-icon>
+        <h2>Departure: {{currentSearch?.origin}} to {{currentSearch?.destination}}</h2>
+      </div>
+    </section>
+    <section class="container flex flex-column align-items-center gap-3">
+      <flight-card class="flight-card" [flight]="booking.flights[0]" [selectable]="false"></flight-card>
+    </section>
+    <section class="container flight-card mt-1">
+      <div class="flex gap-2">
+        <mat-icon class="align-self-center">flight_takeoff</mat-icon>
+        <h2>Return: {{booking.flights[0]?.destination?.code}} to {{ booking.flights[0]?.origin?.code }}</h2>
+      </div>
+    </section>
+  }@else{
+     <section class="container flight-card mt-1">
+      <div class="flex gap-2">
+        <mat-icon class="align-self-center">flight_takeoff</mat-icon>
+        
+        <h2>Departure: {{currentSearch?.origin}} to {{currentSearch?.destination}}</h2>
+      </div>
+    </section>
+  }
+
+  <section class="container flex flex-column align-items-center gap-3">
+      @for(flight of flights$ | async; track flight){
+          <flight-card class="flight-card" [flight]="flight" (selected)="onSelected($event)"></flight-card>
+      }
+  </section>
+</article>
+
+
+<!-- se deberia guardar el estado de busqueda -->
+<!-- insertar el filtro de busqueda -->
+ <!--insertar resumen de vuelo-->
+ <!-- cards de vuelos -->
+
+ 
