@@ -49,7 +49,7 @@
                 <mat-label>
                     Departure
                 </mat-label>
-                <input matInput [matDatepicker]="DeparturePicker" (focus)="DeparturePicker.open()" formControlName="departureDate">
+                <input matInput [matDatepicker]="DeparturePicker" (focus)="DeparturePicker.open()" formControlName="departureDate" [min]="minDate">
                 <mat-datepicker-toggle matIconSuffix [for]="DeparturePicker">
                 </mat-datepicker-toggle>
                 <mat-datepicker #DeparturePicker disabled="false"></mat-datepicker>
@@ -57,7 +57,7 @@
             @if(showReturnDate){
                 <mat-form-field hideRequiredMarker>
                     <mat-label>Return</mat-label>
-                    <input matInput [matDatepicker]="ReturnPicker" (focus)="ReturnPicker.open()" formControlName="returnDate">
+                    <input matInput [matDatepicker]="ReturnPicker" (focus)="ReturnPicker.open()" formControlName="returnDate" [min]="minDate">
                     <mat-datepicker-toggle matIconSuffix [for]="ReturnPicker">
                     </mat-datepicker-toggle>
                     <mat-datepicker #ReturnPicker ></mat-datepicker>

@@ -43,6 +43,7 @@ export class SearchFormComponent implements OnInit, OnDestroy{
 
   showReturnDate: boolean = true;
   tripTypeEvent$: Subscription | undefined;
+  minDate: Date = new Date()
 
   private airportFormatPipe = inject(InputAirportFormatPipe)
 
