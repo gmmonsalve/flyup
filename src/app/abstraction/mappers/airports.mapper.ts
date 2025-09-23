@@ -1,9 +1,9 @@
 
 import { AirportDTO } from "@core/dtos/airport.dto";
 import Airport from "@core/models/airport.model";
-import { ToDTOMapper } from "@abstraction/interfaces/mapper.interface";
+import { ToDomainMapper } from "@abstraction/interfaces/mapper.interface";
 
-export default class AirportsMapper implements ToDTOMapper<Airport[], AirportDTO> {
+export default class AirportsMapper implements ToDomainMapper<Airport[], AirportDTO> { //revisar porque lo tengo para un array y no para cada elemento
 
     toDomain(dto: AirportDTO): Airport[] {
         const data = dto.data;
