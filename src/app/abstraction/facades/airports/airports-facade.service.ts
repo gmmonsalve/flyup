@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { AirportsService } from '@core/services/airports.service';
+import { AirportsService } from '@core/services/api/airports-api.service';
 import Airport from '@core/models/airport.model';
 import { map, Observable } from 'rxjs';
 import AirportsMapper from '@abstraction/mappers/airports.mapper';
