@@ -1,0 +1,19 @@
+<article class="container">
+    <section>
+        <h2>Trip summary</h2>
+    </section>
+    <section class="flex flex-column gap-3">
+        @for(flight of booking?.flights; track flight){
+            <h2>{{ flight.origin.city }} to {{ flight.destination.city }} | {{ flight.departureDate.date | date:'fullDate' }}</h2>
+            <flight-card [flight]="flight" [selectable]="false"></flight-card>
+        }
+    </section>
+    <section class="flex flex-column align-items-end">
+        <div>
+            <h1>{{ totalPrice | currency:'COP':'symbol':'1.0-0'  }}</h1>
+        </div>
+        <div>
+            <button mat-raised-button class="rounded-button mt-1 py-5" color="accent" >Confirm</button>
+        </div>
+    </section>
+</article>
