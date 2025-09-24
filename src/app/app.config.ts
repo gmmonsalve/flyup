@@ -14,7 +14,13 @@ export const appConfig: ApplicationConfig = {
       provide: BOOKING_RULES,
       useValue: {
         MAX_PASSENGERS: 9,
-        MIN_PASSENGERS: 1
+        MIN_PASSENGERS: 1,
+        ONE_WAY_FLIGHT_NUMBER: 1,
+        ROUND_TRIP_FLIGHT_NUMBER: 2,
+        TRIP_TYPE: {
+          oneWay: "one-way",
+          roundTrip: "round-trip"
+        }
       }
     }
   ]
