@@ -1,9 +1,7 @@
 export default interface Passenger{
     firstName: string;
     lastName: string;
-    birthDate: string;
-    nationality: string;
-    typeOfIdentification: 'DNI' | 'PASSPORT' | 'OTHER';
-    identificationNumber: string;
+    birthDate: Date;
+    nationality: { code: string, title: string };
     gender: "Male" | "Female" | "Other";
 }

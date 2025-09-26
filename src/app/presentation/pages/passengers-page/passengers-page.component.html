@@ -1,0 +1,7 @@
+<article class="container">
+    <section>
+        <h1>Passengers</h1>
+        <p>Type the name and last name(s) as they are register on your passport or identification.</p>
+    </section>
+    <passenger-form [numberPassengers]="searchParams?.numberPassengers" [countries]="countries$ | async" (filled)="onFormFilled($event)"></passenger-form>
+</article>

@@ -1,0 +1,98 @@
+<section aria-label="passengers form" class="my-3">
+        <form [formGroup]="passengersForm" (submit)="onSubmit()">
+            <fieldset formArrayName="passengers" class="flex flex-column gap-3">
+                    <div class="card-rounded-10 p-2" *ngFor="let passenger of passengersForm.controls.passengers.controls; let i = index" [formGroupName]="i">
+                        <h3>Passenger {{ i + 1 }}:</h3>
+                        <div class="flex gap-3">
+                            <div class="flex flex-column flex-basis-50">
+                                <div class="flex gap-3">
+                                    <mat-form-field class="flex-shrink-1">
+                                        <mat-label>Gender</mat-label>
+                                        <mat-select formControlName="gender">
+                                            <mat-option value="Female">Female</mat-option>
+                                            <mat-option value="Male">Male</mat-option>
+                                            <mat-option value="Other">Other</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <mat-form-field class="flex-grow-1">
+                                        <mat-label>Name</mat-label>
+                                        <input matInput placeholder="Name" value="" formControlName="firstName">
+                                    </mat-form-field>
+                                </div>
+                               
+                                <mat-form-field class="flex-grow-1">
+                                    <mat-label>Birthdate</mat-label>
+                                    <input matInput [matDatepicker]="picker" formControlName="birthDate">
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field> 
+                                
+                            </div>
+                            <div class="flex flex-column flex-basis-50">
+                                <mat-form-field>
+                                    <mat-label>Last Name</mat-label>
+                                    <input matInput placeholder="Last Name" value="" formControlName="lastName">
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <mat-label>Nationality</mat-label>
+                                    <mat-select formControlName="nationality">
+                                        @for(country of countries; track country){
+                                            <mat-option value="{{country.code}}">{{country.name}}</mat-option>
+                                        }
+                                    </mat-select>
+                                </mat-form-field>      
+                            </div>  
+                        </div>
+                    </div>
+            </fieldset>
+            
+            <fieldset formGroupName="bookingHolder" aria-label="Booking holder Form">
+                <div class="card-rounded-10 p-2 gap-3">
+                    <h3>Booking Holder:</h3>
+                    <p>This would be the only person that will receive the booking confirmation and the only authorized to request changes and refunds.</p>
+                    <div class="flex gap-3">
+                        <div class="flex flex-column flex-basis-50">
+                            <mat-form-field>
+                                        <mat-label>Passenger</mat-label>
+                                        <mat-select formControlName="passenger" (click)="setPassengersNames()">
+                                            @for(passenger of bookingHolderOptionList; track passenger){
+                                                 <mat-option [value]="passenger">{{passenger.firstName}} {{passenger.lastName}}</mat-option>
+                                            }
+                                        </mat-select>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>Email</mat-label>
+                                <input matInput placeholder="Email" value="" formControlName="email" type="email">
+                            </mat-form-field>
+                        </div>
+                  
+                        <div class="flex flex-column flex-basis-50">
+                            <div class="flex gap-3">
+                                <mat-form-field class="flex-shrink-1">
+                                    <mat-label>Prefix</mat-label>
+                                    <mat-select formControlName="prefix">
+                                        @for(country of countries; track country){
+                                            <mat-option value="{{country.prefix}}">{{country.prefix}}</mat-option>
+                                        }
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field class="flex-grow-1">
+                                    <mat-label>Phone number</mat-label>
+                                    <input matInput placeholder="Phone number" value="" formControlName="phone" type="tel" maxlength="15">
+                                </mat-form-field>
+                            </div>
+                            <div class="flex">
+                                <mat-form-field class="flex-grow-1">
+                                        <mat-label>Confirm email</mat-label>
+                                    <input matInput placeholder="Email" value="" formControlName="confirmEmail" type="email">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <div class="flex justify-content-end flex-basis-50">
+                <button mat-flat-button class="rounded-button w-10 my-1" color="accent" type="submit">Next</button>
+            </div>
+    </form>
+</section>
