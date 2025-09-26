@@ -7,6 +7,9 @@ export const environment = {
     },
     airports:{
       getAll: '/airports'
+    },
+    countries: {
+      getAll: '/countries'
     }
   }
 };
