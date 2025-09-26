@@ -1,12 +1,14 @@
 import { inject, Injectable } from '@angular/core';
 import { BookingRules } from '@app/core/business/booking.business';
 import { PricingBusinessRules } from '@app/core/business/pricing.business';
-import Booking from '@app/core/models/booking.model';
-import Flight from '@app/core/models/flight.model';
-import { SearchCriteria } from '@app/core/models/search-criteria.model';
 import { BookingStateService } from '@app/core/state/booking/booking-state.service';
 import { SearchStateService } from '@app/core/state/search/search-state.service';
-import { MonoTypeOperatorFunction, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
+import { SearchCriteria } from '@app/core/models/search-criteria.model';
+import User from '@app/core/models/user.model';
+import Passenger from '@app/core/models/passenger.model';
+import Booking from '@app/core/models/booking.model';
+import Flight from '@app/core/models/flight.model';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +24,7 @@ export class BookingFacadeService {
     let currentBooking = this._bookingStore.getBookingState();
 
     if (!currentBooking) {
-      currentBooking = this.createBooking(flight);
+      currentBooking = this.createBooking();
     }
     
      const updatedBooking: Booking = {
@@ -41,7 +43,7 @@ export class BookingFacadeService {
     this._bookingStore.setBookingState(updatedBooking);
   }
 
-  createBooking(flight: Flight): Booking | null{
+  createBooking(): Booking | null{
     const searchCriteria: SearchCriteria | null  = this._searchStore.getCriteria();
     if(!searchCriteria) return null;
     const newBooking: Booking = {
@@ -59,7 +61,7 @@ export class BookingFacadeService {
     return this._bookingStore.booking$
   }
 
-  isCompleted(booking: Booking | null){
+  isFlightSelectionCompleted(booking: Booking | null){
     return this._bookingBusiness.isFlightSelectionComplete(booking);
   }
 
@@ -68,6 +70,26 @@ export class BookingFacadeService {
   const searchCriteria: SearchCriteria | null  = this._searchStore.getCriteria();
   if(!searchCriteria) return 0;
   return this._pricingBusiness.calculateBookingPrice(booking, searchCriteria.passengers)
+ }
+
+ addPassengers(passengers: Passenger[], user: User): void{
+  const currentBooking = this._bookingStore.getBookingState();
+  try{
+    const newBookingState = {
+      ...currentBooking, 
+      passengers, 
+      user,
+      status: 'PASSENGER_SELECTED'
+    } as Booking;
+    this._bookingStore.setBookingState(newBookingState);
+    this._bookingBusiness.validateNumberPassengers(newBookingState);
+  }catch(err){
+    window.alert(err)
+  };
+ }
+
+ getBookingState(): Booking | null {
+  return this._bookingStore.getBookingState()
  }
 
 
