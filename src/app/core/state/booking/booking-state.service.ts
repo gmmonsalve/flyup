@@ -10,11 +10,22 @@ export class BookingStateService {
   private bookingState$ = new BehaviorSubject<Booking | null>(null);
   booking$ = this.bookingState$.asObservable()
 
-  setBookingState(booking: Booking | null){
-      this.bookingState$.next(booking);
+  setBookingState(booking: Booking | null): void {
+    this.bookingState$.next(booking ? this.cloneBooking(booking) : null);
   }
   
-  getBookingState(){
-      return this.bookingState$.getValue();
+  getBookingState(): Booking | null {
+    const current = this.bookingState$.getValue();
+    return current ? this.cloneBooking(current) : null;
   }
+
+  private cloneBooking(booking: Booking): Booking {
+    return {
+      ...booking,
+      passengers: [...booking.passengers],
+      flights: [...booking.flights],
+      selectedSeats: [...booking.selectedSeats],//cambioooos
+    };
+  }
+
 }
