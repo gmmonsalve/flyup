@@ -10,6 +10,9 @@ export const environment = {
     },
     countries: {
       getAll: '/countries'
+    },
+    seats: {
+      getAll: '/seats'
     }
   }
 };
