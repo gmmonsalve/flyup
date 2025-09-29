@@ -30,7 +30,7 @@ export class FlightsFacadeService {
   }
 
   getFlightsResult(searchDTO: SearchDTO): Observable<Flight[]>{
-    return this._flightService.getFligths(searchDTO).pipe(
+    return this._flightService.getFlights(searchDTO).pipe(
       map(this._flightSearchMapper.toDomain.bind(this))
     )
   }

@@ -10,12 +10,10 @@ import { Observable } from 'rxjs';
 export class FlightsApiService {
   private _http: HttpClient = inject(HttpClient);
   private _apiUrl = environment.apiUrl;
+  private _flightsPaths = environment.path.flights;
 
-
-  constructor() { }
-
-  getFligths(searchDTO: SearchDTO): Observable<SearchResultDTO>{
-    return this._http.post<SearchResultDTO>(`${this._apiUrl}${environment.path.flights.search}`, searchDTO)
+  getFlights(searchDTO: SearchDTO): Observable<SearchResultDTO>{
+    return this._http.post<SearchResultDTO>(`${this._apiUrl}${this._flightsPaths.search}`, searchDTO)
   }
 
 }
