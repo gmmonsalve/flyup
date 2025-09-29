@@ -8,12 +8,13 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class AirportsService {
- private http: HttpClient = inject(HttpClient);
-  private apiUrl = environment.apiUrl;
+  private _http: HttpClient = inject(HttpClient);
+  private _apiUrl = environment.apiUrl;
+  private _airportsPath = environment.path.airports;
 
   constructor() { }
 
   getAirports(): Observable<AirportDTO> {
-    return this.http.get<AirportDTO>(`${this.apiUrl}${environment.path.airports.getAll}`);
+    return this._http.get<AirportDTO>(`${this._apiUrl}${this._airportsPath.getAll}`);
   }
 }

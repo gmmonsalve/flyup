@@ -10,11 +10,11 @@ import { Observable } from 'rxjs';
 export class CountriesApiService {
 
   private _api = inject(HttpClient);
-  private apiPath = environment.apiUrl;
-  private countriesPath = environment.path.countries;
+  private _apiPath = environment.apiUrl;
+  private _countriesPath = environment.path.countries;
 
   getCountries(): Observable<CountriesDTO>{
-    return this._api.get<CountriesDTO>(`${this.apiPath}${this.countriesPath.getAll}`);
+    return this._api.get<CountriesDTO>(`${this._apiPath}${this._countriesPath.getAll}`);
   }
 
 
