@@ -9,6 +9,6 @@ export default interface Booking{
     flights: Flight[];
     selectedSeats: Seat[];
     totalPrice: number;
-    status: 'FLIGHT_SELECTION'| 'RETURN_FLIGHT_SELECTION' | 'FLIGHT_SELECTED' | 'PASSENGER_SELECTED' | 'BOOKED' | 'CONFIRMED' | 'CANCELLED';
+    status: 'FLIGHT_SELECTION'| 'FLIGHT_SELECTED' | 'PASSENGER_SELECTED' | 'SEAT_SELECTED' |'BOOKED' | 'CONFIRMED' | 'CANCELLED';
     tripType: 'one-way' | 'round-trip';
 }
