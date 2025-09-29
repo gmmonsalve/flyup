@@ -9,6 +9,7 @@ import User from '@app/core/models/user.model';
 import Passenger from '@app/core/models/passenger.model';
 import Booking from '@app/core/models/booking.model';
 import Flight from '@app/core/models/flight.model';
+import Seat from '@app/core/models/seat.model';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +31,7 @@ export class BookingFacadeService {
      const updatedBooking: Booking = {
       ...currentBooking,
       flights: [...currentBooking!.flights, flight],
-    } as Booking;
+    } as Booking;//ya no es necesario
    
     const isComplete = this._bookingBusiness.isFlightSelectionComplete(updatedBooking);
 
@@ -45,7 +46,7 @@ export class BookingFacadeService {
 
   createBooking(): Booking | null{
     const searchCriteria: SearchCriteria | null  = this._searchStore.getCriteria();
-    if(!searchCriteria) return null;
+    if(!searchCriteria) return null; //revisar esto, seria ideal recibir el trip type
     const newBooking: Booking = {
       passengers: [],
       flights: [],
@@ -58,8 +59,12 @@ export class BookingFacadeService {
   }
 
   getBookingObservable(): Observable<Booking | null>{
-    return this._bookingStore.booking$
+    return this._bookingStore.booking$;
   }
+
+  getBookingState(): Booking | null {
+  return this._bookingStore.getBookingState();
+ }
 
   isFlightSelectionCompleted(booking: Booking | null){
     return this._bookingBusiness.isFlightSelectionComplete(booking);
@@ -80,7 +85,7 @@ export class BookingFacadeService {
       passengers, 
       user,
       status: 'PASSENGER_SELECTED'
-    } as Booking;
+    } as Booking;//ya no es necesario
     this._bookingStore.setBookingState(newBookingState);
     this._bookingBusiness.validateNumberPassengers(newBookingState);
   }catch(err){
@@ -88,9 +93,22 @@ export class BookingFacadeService {
   };
  }
 
- getBookingState(): Booking | null {
-  return this._bookingStore.getBookingState()
+  addBookingSeats(seats: Seat[]){
+    const currentBooking = this.getBookingState();
+    const newState: Booking = {
+      ...currentBooking,
+      selectedSeats: seats,
+      status: 'SEAT_SELECTED'
+    } as Booking;//ya no es necesario
+
+    try{
+      this._bookingBusiness.validateSeatSelection(newState);
+      this._bookingStore.setBookingState(newState);
+    }catch(error){
+      console.error(error)
+    }
+  }
+ 
  }
 
 
-}
