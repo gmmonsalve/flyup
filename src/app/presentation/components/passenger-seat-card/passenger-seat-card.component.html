@@ -1,0 +1,32 @@
+<mat-card>
+  <mat-card-content>
+    <div class="flex">
+        <div class="flex">
+             <div class="avatar">{{ seat?.passenger  | passengerInitials }}</div>
+        </div>
+        <div class="flex flex-grow-1 justify-content-between">
+            <div class="flex flex-column ml-1"> 
+                <h4 class="m-0">{{ seat?.passenger?.firstName }} {{ seat?.passenger?.lastName }}</h4>
+                <div class="flex">
+                    <mat-icon class="align-self-center" aria-hidden="false" aria-label="seat icon" fontIcon="airline_seat_recline_extra"></mat-icon>
+                    @if(seat?.seatNumber){
+                        <p>{{ seat?.seatNumber }} - {{ seat?.seatClass }}</p>
+                    }@else {
+                        <p>Not selected yet.</p>
+                    }
+                </div>
+            </div>
+            <div class="flex">
+                @if(seat?.price){
+                    <h3>{{ seat?.price | currency:'COP':'symbol':'1.0-0'  }}</h3>
+                    @if(!hideCloseButton){
+                        <button mat-icon-button class="align-self-center" color="primary" aria-label="cancel selection button" (click)="onCancelSelection($event)">
+                            <mat-icon>cancel</mat-icon>
+                        </button>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+  </mat-card-content>
+</mat-card>

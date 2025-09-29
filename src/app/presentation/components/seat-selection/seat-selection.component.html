@@ -1,0 +1,102 @@
+<div class="flex justify-content-center">
+  <mat-card class="w-75">
+    <mat-card-content>
+      <h3>First class</h3>
+      <p>More space, more privacy</p>
+      <mat-divider></mat-divider>
+      <div class="flex justify-content-between p-3">
+         @for(seatFirst of seats?.first; track $index){
+          <div>
+            <div class="seat first" [ngClass]="{ 'not-available': !seatFirst.isAvailable && !seatFirst.passenger,
+            'selected': !seatFirst.isAvailable && seatFirst.passenger}" (click)="onSelectedSeat(seatFirst)">
+              @if(seatFirst.passenger){
+                  {{ seatFirst.passenger | passengerInitials }}
+              }@else{
+                
+                @if(!seatFirst.isAvailable){
+                  <mat-icon>close</mat-icon>
+                }@else{
+                  {{ seatFirst.seatNumber }}
+                }
+
+              }
+            </div>
+          </div>
+        }
+      </div>
+       
+   
+      <h3>Plus</h3>
+      <p>More space</p>
+      <mat-divider></mat-divider>
+       <div class="seat-map p-3">
+          @for(seatPlus of seats?.plus; track $index){
+            <div>
+              <div class="seat plus" [ngClass]="{ 'not-available': !seatPlus.isAvailable && !seatPlus.passenger,
+              'selected': !seatPlus.isAvailable && seatPlus.passenger}" (click)="onSelectedSeat(seatPlus)" (click)="onSelectedSeat(seatPlus)">
+                  @if(seatPlus.passenger){
+                    {{ seatPlus.passenger | passengerInitials }}
+                  }@else{
+                  
+                  @if(!seatPlus.isAvailable){
+                    <mat-icon>close</mat-icon>
+                  }@else{
+                    {{ seatPlus.seatNumber }}
+                  }
+                }
+              </div>
+            </div>
+          }
+       </div>
+    
+
+      <h3>Emergency</h3>
+      <p>Comfortable but with responsabilities.</p>
+      <mat-divider></mat-divider>
+      <div class="seat-map p-3">
+         @for(seatEmergency of seats?.emergency; track $index){
+          <div>
+            <div class="seat emergency"  [ngClass]="{ 'not-available': !seatEmergency.isAvailable && !seatEmergency.passenger,
+            'selected': !seatEmergency.isAvailable && seatEmergency.passenger}" (click)="onSelectedSeat(seatEmergency)" (click)="onSelectedSeat(seatEmergency)">
+                  @if(seatEmergency.passenger){
+                    {{ seatEmergency.passenger | passengerInitials }}
+                  }@else{
+                  
+                  @if(!seatEmergency.isAvailable){
+                    <mat-icon>close</mat-icon>
+                  }@else{
+                    {{ seatEmergency.seatNumber }}
+                  }
+                }
+            </div>
+          </div>
+        }
+      </div>
+     
+      <h3>Economy</h3>
+      <p>Flight in our cheapest option.</p>
+      <mat-divider></mat-divider>
+      <div class="seat-map row-gap-20 p-3">
+         @for(seatEconomy of seats?.economy; track $index){
+          <div >
+            <div class="seat economy"  [ngClass]="{ 'not-available': !seatEconomy.isAvailable && !seatEconomy.passenger,
+            'selected': !seatEconomy.isAvailable && seatEconomy.passenger}" (click)="onSelectedSeat(seatEconomy)" (click)="onSelectedSeat(seatEconomy)">
+                 @if(seatEconomy.passenger){
+                    {{ seatEconomy.passenger | passengerInitials }}
+                  }@else{
+                  
+                  @if(!seatEconomy.isAvailable){
+                    <mat-icon>close</mat-icon>
+                  }@else{
+                    {{ seatEconomy.seatNumber }}
+                  }
+                }
+            </div>
+          </div>
+        }
+      </div>
+      
+    </mat-card-content>
+  </mat-card>
+</div>
+

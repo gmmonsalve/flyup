@@ -1,7 +1,10 @@
+import Passenger from "./passenger.model";
+
 export default interface Seat{
     flightNumber: string;
     seatNumber: string;
-    class: 'economy' | 'first' | 'plus' | 'emergency';
+    passenger?: Passenger;
+    seatClass: 'ECONOMY' | 'FIRST' | 'PLUS' | 'EMERGENCY' ;
     price: number;
     isAvailable: boolean;
 }

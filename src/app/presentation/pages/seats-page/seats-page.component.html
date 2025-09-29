@@ -1,1 +1,47 @@
-<p>seats-page works!</p>
+<article class="p-4">
+    <section class="flex gap-3">
+        <div class="flex-basis-50">
+             <h1>Seat Selection</h1>
+             <p>Select your seats.</p>
+        </div>
+        <!--  -->
+    </section>
+    <section class="flex gap-3 my-3">
+        <section class="flex-basis-50">
+            <mat-tab-group id="flight-tabs" class="card-rounded-10 p-1"  #flightTabs (selectedIndexChange)="getSeatsByFlight($event)" [(selectedIndex)]="selectedFlightIndex">
+                @for(flight of booking?.flights; track flight.flightNumber; let flightIndex = $index){
+                    <mat-tab #flightTabs label="{{ flight.origin.city }} - {{ flight.destination.city }}" [disabled]="flightIndex != selectedFlightIndex"> 
+                        <div class="flex flex-column gap-3 p-1">
+                            @for(seat of seatsSelection; track $index){
+                                @if(seat.flightNumber == flight.flightNumber){
+                                    <passenger-seat-card  (reset)="onResetSeatSelection(seat)" [seat]="seat" 
+                                    (click)="setSelectedPassenger($index, seat)"
+                                    [hideCloseButton]="selectedPassengerIndex != $index" 
+                                    [ngClass]="{'selected': selectedPassengerIndex == $index}"></passenger-seat-card>
+                                }
+                            }
+                        </div>
+                    </mat-tab>
+                }
+            </mat-tab-group>
+        </section>
+        <section class="flex-basis-50">
+            <seat-selection  #seatSelectionPanel [seats]="flightSeats$ | async" [seatTofill]="selectedSeat" (selectedSeat)="onSelectedSeat($event)"></seat-selection>
+        </section>
+    </section>
+    <section class="bottom-bar flex justify-content-end p-1 gap-4">
+        <div class="align-self-center">
+            <span>Total seats price: </span>
+            <strong class="fs-3">{{totalSeatsPrice | currency:'COP':'symbol':'1.0-0' }}</strong>
+            </div>
+        <div class="actions">
+            @if(selectedFlightIndex < maxFlightIndex){
+                 <button mat-stroked-button color="primary" class="rounded-button"  (click)="nextFlight()">Next flight</button>
+            }@else{
+                 <button class="rounded-button"  mat-flat-button color="accent" (click)="addsSeatToBooking()">Continue</button>
+            }
+        </div>
+        
+    </section>
+   
+</article>
