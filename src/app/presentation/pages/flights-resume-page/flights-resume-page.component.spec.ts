@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import  BookingResumeComponent  from './booking-resume-page.component';
+import  BookingResumeComponent  from './flights-resume-page.component';
 
 describe('BookingResumeComponent', () => {
   let component: BookingResumeComponent;
