@@ -3,14 +3,13 @@ import { TestBed } from '@angular/core/testing';
 import { SeatsBusinessRules } from './seats.business';
 
 describe('SeatsService', () => {
-  let service: SeatsBusinessRules;
+  let seats: SeatsBusinessRules;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(SeatsBusinessRules);
+    seats = new SeatsBusinessRules();
   });
 
   it('should be created', () => {
-    expect(service).toBeTruthy();
+    expect(seats).toBeTruthy();
   });
 });
