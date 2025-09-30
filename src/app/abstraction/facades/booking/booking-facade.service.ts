@@ -1,15 +1,18 @@
 import { inject, Injectable } from '@angular/core';
-import { BookingRules } from '@app/core/business/booking.business';
-import { PricingBusinessRules } from '@app/core/business/pricing.business';
-import { BookingStateService } from '@app/core/state/booking/booking-state.service';
-import { SearchStateService } from '@app/core/state/search/search-state.service';
+import { BookingRules } from '@core/business/booking.business';
+import { PricingBusinessRules } from '@core/business/pricing.business';
+import { BookingStateService } from '@core/state/booking/booking-state.service';
+import { SearchStateService } from '@core/state/search/search-state.service';
 import { Observable } from 'rxjs';
-import { SearchCriteria } from '@app/core/models/search-criteria.model';
-import User from '@app/core/models/user.model';
-import Passenger from '@app/core/models/passenger.model';
-import Booking from '@app/core/models/booking.model';
-import Flight from '@app/core/models/flight.model';
-import Seat from '@app/core/models/seat.model';
+import { SearchCriteria } from '@core/models/search-criteria.model';
+import { BookingApiService } from '@core/services/api/booking-api.service';
+import BookingMapper from '@abstraction/mappers/booking.mapper';
+import BookingDTO from '@core/dtos/booking.dto';
+import User from '@core/models/user.model';
+import Passenger from '@core/models/passenger.model';
+import Booking from '@core/models/booking.model';
+import Flight from '@core/models/flight.model';
+import Seat from '@core/models/seat.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +23,8 @@ export class BookingFacadeService {
   private _searchStore: SearchStateService = inject(SearchStateService);
   private _bookingBusiness: BookingRules = new BookingRules();
   private _pricingBusiness = new PricingBusinessRules();
+  private _bookingApi = inject(BookingApiService);
+  private _bookingMapper = new BookingMapper();
 
   addFlight(flight: Flight): void {
     let currentBooking = this._bookingStore.getBookingState();
@@ -27,26 +32,23 @@ export class BookingFacadeService {
     if (!currentBooking) {
       currentBooking = this.createBooking();
     }
-    
-     const updatedBooking: Booking = {
-      ...currentBooking,
-      flights: [...currentBooking!.flights, flight],
-    } as Booking;//ya no es necesario
+
+    currentBooking?.flights.push(flight);
    
-    const isComplete = this._bookingBusiness.isFlightSelectionComplete(updatedBooking);
+    const isComplete = this._bookingBusiness.isFlightSelectionComplete(currentBooking);
 
     if (isComplete) {
-      updatedBooking.status = 'FLIGHT_SELECTED';
-      this._bookingStore.setBookingState(updatedBooking);
+      currentBooking!.status = 'FLIGHT_SELECTED';
+      this._bookingStore.setBookingState(currentBooking);
       return;
     };
-    
-    this._bookingStore.setBookingState(updatedBooking);
+
+    this._bookingStore.setBookingState(currentBooking);
   }
 
   createBooking(): Booking | null{
     const searchCriteria: SearchCriteria | null  = this._searchStore.getCriteria();
-    if(!searchCriteria) return null; //revisar esto, seria ideal recibir el trip type
+    if(!searchCriteria) return null;
     const newBooking: Booking = {
       passengers: [],
       flights: [],
@@ -70,22 +72,22 @@ export class BookingFacadeService {
     return this._bookingBusiness.isFlightSelectionComplete(booking);
   }
 
- getTotalBooking(): number{
-  const booking = this._bookingStore.getBookingState()
-  const searchCriteria: SearchCriteria | null  = this._searchStore.getCriteria();
-  if(!searchCriteria) return 0;
-  return this._pricingBusiness.calculateBookingPrice(booking, searchCriteria.passengers)
+ calculateTotalBooking(): number{
+    const booking = this._bookingStore.getBookingState();
+    if(!booking) return 0;
+    return this._pricingBusiness.calculateBookingPrice(booking);
  }
 
+
  addPassengers(passengers: Passenger[], user: User): void{
-  const currentBooking = this._bookingStore.getBookingState();
+  const currentBooking: Booking | null = this._bookingStore.getBookingState();
   try{
     const newBookingState = {
       ...currentBooking, 
       passengers, 
-      user,
+      bookingHolder: user,
       status: 'PASSENGER_SELECTED'
-    } as Booking;//ya no es necesario
+    } as Booking;
     this._bookingStore.setBookingState(newBookingState);
     this._bookingBusiness.validateNumberPassengers(newBookingState);
   }catch(err){
@@ -98,8 +100,8 @@ export class BookingFacadeService {
     const newState: Booking = {
       ...currentBooking,
       selectedSeats: seats,
-      status: 'SEAT_SELECTED'
-    } as Booking;//ya no es necesario
+      status: 'SEATS_SELECTED'
+    } as Booking;
 
     try{
       this._bookingBusiness.validateSeatSelection(newState);
@@ -107,6 +109,22 @@ export class BookingFacadeService {
     }catch(error){
       console.error(error)
     }
+  }
+
+  saveBooking(): Observable<any>{
+    const currentBooking: Booking | null = this._bookingStore.getBookingState();
+    const bookingDTO: BookingDTO = this._bookingMapper.toDTO(currentBooking!);
+    return this._bookingApi.createBooking(bookingDTO);
+  }
+
+  changeStatus(status: 'FLIGHT_SELECTION'| 'FLIGHT_SELECTED' | 'PASSENGER_SELECTED' | 'SEATS_SELECTED' | 'BOOKED'){
+    const currentBooking = this._bookingStore.getBookingState();
+    currentBooking!.status = status;
+    this._bookingStore.setBookingState(currentBooking);
+  }
+
+  resetBookingState(){
+    this._bookingStore.setBookingState(null);
   }
  
  }
