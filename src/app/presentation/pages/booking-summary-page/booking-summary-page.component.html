@@ -1,0 +1,59 @@
+<article class="container p-2 my-3 flex flex-column align-items-center">
+    <section>
+        <h3>Booking Confirmation</h3>
+    </section>
+    <section id="summary-section" class="card-rounded-10 p-3 flex flex-column gap-3">
+        <section>
+            <mat-accordion>
+                 <mat-expansion-panel [(expanded)]="panelOpenState">
+                    <mat-expansion-panel-header>
+                    <mat-panel-title>
+                         <h3>Flights: </h3>
+                    </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div class="flex flex-column gap-3">
+                        @for (flight of booking?.flights; track $index) {
+                            <mat-divider></mat-divider>
+                            <h4><mat-icon>{{ iconsName[$index] }}</mat-icon>{{flight.origin.city}} to {{flight.destination.city}} | <strong>{{ flight.departureDate.date | date:'fullDate' }}</strong></h4>
+                            <mat-divider></mat-divider>
+                            <flight-card [flight]="flight" [selectable]="false" ></flight-card>
+                        }
+                    </div>
+                    </mat-expansion-panel>
+            </mat-accordion>
+        </section>
+        <mat-divider></mat-divider>
+        <section class="flex">
+            <mat-icon class="align-self-center">group</mat-icon>
+            <p>{{booking?.passengers?.length}} Passenger(s).</p>
+        </section>
+        <mat-divider></mat-divider>
+        <section>
+            <mat-accordion>
+                 <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        See details
+                    </mat-panel-title>
+                    </mat-expansion-panel-header>
+                        <div class="flex justify-content-between">
+                            <p>{{booking?.flights?.length }} Ticket(s)</p>
+                            <p>{{ totalPricesInfo.totalFlights | currency}}</p>
+                        </div>
+                        <div class="flex justify-content-between">
+                            <p>{{booking?.selectedSeats?.length }} Seat(s)</p>
+                            <p>{{ totalPricesInfo.totalSeats | currency}}</p>
+                        </div>
+                    </mat-expansion-panel>
+            </mat-accordion>
+        </section>
+        <section class="flex justify-content-between">
+            <h3>Total Price: </h3> <strong class="fs-3 align-self-center">{{ totalPricesInfo.totalBooking | currency }}</strong>
+        </section>
+    </section>
+    <section class="flex mt-1 justify-content-end">
+        <div>
+             <button class="rounded-button"  mat-flat-button color="accent" (click)="confirmBooking()">Confirm Booking</button>
+        </div>
+    </section>
+</article>
