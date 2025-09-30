@@ -10,10 +10,16 @@ export default interface SeatsDTO{
     }
 }
 
-interface SeatDTO{
+export interface SeatDTO{
     flightNumber: string,
     seatNumber: string,
     seatClass: 'ECONOMY' | 'FIRST' | 'PLUS' | 'EMERGENCY',
     price: number,
     isAvailable: boolean
+}
+
+export interface SeatBookingDTO{
+    flightId: string,
+    seatNumber: string,
+    seatClass: string,
 }
