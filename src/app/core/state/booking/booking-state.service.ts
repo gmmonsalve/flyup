@@ -24,7 +24,7 @@ export class BookingStateService {
       ...booking,
       passengers: [...booking.passengers],
       flights: [...booking.flights],
-      selectedSeats: [...booking.selectedSeats],//cambioooos
+      selectedSeats: [...booking.selectedSeats],
     };
   }
 
