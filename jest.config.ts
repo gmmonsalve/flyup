@@ -1,4 +1,6 @@
 import type { Config } from 'jest';
+const { pathsToModuleNameMapper } = require('ts-jest');
+const { compilerOptions } = require('./tsconfig.json');
 
 const config: Config = {
   preset: 'jest-preset-angular',
@@ -14,7 +16,8 @@ const config: Config = {
       includeFailureMsg: true,
       includeSuiteFailure: true,
     }]
-  ]
+  ],
+  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/' })
 };
 
 export default config;
