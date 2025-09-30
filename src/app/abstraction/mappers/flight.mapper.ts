@@ -1,6 +1,7 @@
-import { ToDomainMapper } from "@abstraction/interfaces/mapper.interface";
+import { ToDomainMapper, ToDTOMapper } from "@abstraction/interfaces/mapper.interface";
 import Flight from "@app/core/models/flight.model";
 import { SearchResultDTO } from "@app/core/dtos/search.dto";
+import FlightDTO from "@core/dtos/flight.dto";
 
 export class FlightSearchMapper implements ToDomainMapper<Flight[], SearchResultDTO> {
    
@@ -28,4 +29,17 @@ export class FlightSearchMapper implements ToDomainMapper<Flight[], SearchResult
        
     }
    
+}
+
+export class FlightsToDTOMapper implements ToDTOMapper<Flight[], FlightDTO[]>{
+
+
+  toDTO(domain: Flight[]): FlightDTO[] {
+    return domain.map((flight)=>{
+      return {
+        id: flight.flightNumber
+      }
+    })
+  }
+
 }
