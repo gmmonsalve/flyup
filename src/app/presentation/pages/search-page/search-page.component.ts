@@ -9,6 +9,8 @@ import { SearchCriteria } from '@app/core/models/search-criteria.model';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { SearchParams } from '@app/presentation/models/search-params.vmodel';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -23,6 +25,7 @@ export default class SearchPageComponent implements OnInit {
 
   private _airportFacadeService = inject(AirportsFacadeService);
   private _searchFacadeService = inject(SearchFacadeService);
+  private _router = inject(Router);
 
   airports$: Observable<Airport[]> | undefined;
   currentSearch$: Observable<SearchCriteria | null> | null = null;
@@ -34,8 +37,11 @@ export default class SearchPageComponent implements OnInit {
     this.currentSearch$ = this._searchFacadeService.getSearchObservable();
   }
 
-  onSearch(seachParams: SearchCriteria){
-    this._searchFacadeService.searchFlights(seachParams);
+  onSearch(searchCriteria: SearchCriteria){
+    const searchParams: SearchParams | null = this._searchFacadeService.getSearchParams(searchCriteria);
+    if(!searchParams) return;
+    this._searchFacadeService.setSearchCriteria(searchCriteria);
+    this._router.navigate(['flights/search'], { queryParams: searchParams })
   }
 
   deleteRecentSearch(){

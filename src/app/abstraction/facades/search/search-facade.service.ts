@@ -1,11 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import { SearchCriteria } from '@core/models/search-criteria.model';
 import { SearchCriteriaRules } from '@app/core/business/search-criteria.business';
-import { Router } from '@angular/router';
 import { SearchParamsMapper } from '@app/abstraction/mappers/search.mapper';
 import { SearchParams } from '@app/presentation/models/search-params.vmodel';
 import { SearchStateService } from '@core/state/search/search-state.service';
-import { BookingStateService } from '@app/core/state/booking/booking-state.service';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -15,12 +13,8 @@ export class SearchFacadeService {
 
   private rules = new SearchCriteriaRules();
   private _searchParamsMapper = new SearchParamsMapper();
-  private _router = inject(Router);
   private _searchCriteriaStore = inject(SearchStateService);
   private _searchState = inject(SearchStateService);
-  private _bookingState = inject(BookingStateService);
-
-  constructor() { }
 
   getPassengerOptionsList(): number[] {
     const MAX_PASSENGERS = this.rules.getMaxPassengerValue();
@@ -28,19 +22,25 @@ export class SearchFacadeService {
   }
 
   isValidSearchCriteria(searchCriteria: SearchCriteria): boolean{ 
-    const errors = this.rules.validateSearchCriteria(searchCriteria)
-    if(!errors) return true
-    return errors.length == 0
+    try{
+      this.rules.validateSearchCriteria(searchCriteria);
+      return true;
+    }catch(err){
+      window.alert(err);
+    }
+    return false;
   }
 
-  searchFlights(searchCriteria: SearchCriteria){
+  getSearchParams(searchCriteria: SearchCriteria): SearchParams | null{
     const isValid = this.isValidSearchCriteria(searchCriteria);
     if(isValid){
-      const searchParams: SearchParams = this._searchParamsMapper.toDTO(searchCriteria);
-      this._searchCriteriaStore.setCriteria(searchCriteria);
-      this._bookingState.setBookingState(null);
-      this._router.navigate(['flights/search'], { queryParams: searchParams })
+      return this._searchParamsMapper.toDTO(searchCriteria);
     };
+    return null;
+  }
+
+  setSearchCriteria(searchCriteria: SearchCriteria){
+    this._searchCriteriaStore.setCriteria(searchCriteria);
   }
 
   getSearchObservable(): Observable<SearchCriteria | null>{
@@ -48,7 +48,7 @@ export class SearchFacadeService {
   }
 
   clearSearch(){
-    this._searchState.setCriteria(null)
+    this._searchState.setCriteria(null);
   }
 
 }
