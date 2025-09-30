@@ -12,6 +12,7 @@ import Flight from '@app/core/models/flight.model';
 import { MatButtonModule } from '@angular/material/button';
 import Seat from '@app/core/models/seat.model';
 import Booking from '@app/core/models/booking.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'seats-page',
@@ -27,6 +28,7 @@ export default class SeatsPageComponent implements OnInit {
 
   private _bookingFacade = inject(BookingFacadeService);
   private _seatsFacade = inject(SeatsFacadeService);
+  private _router = inject(Router);
 
   seatsSelection: Seat[] = [];
   selectedPassengerIndex: number | undefined;
@@ -82,7 +84,7 @@ export default class SeatsPageComponent implements OnInit {
 
   onSelectedSeat(seat: Seat): void{
     let selectedSeat = this.seatsSelection.find(currentSeat => (currentSeat.flightNumber == seat.flightNumber) && (currentSeat.passenger?.firstName == seat.passenger?.firstName));
-    if (selectedSeat) { //agregar identificador para los passengers en el front.
+    if (selectedSeat) {
       selectedSeat.price = seat.price; selectedSeat.seatNumber = seat.seatNumber; 
       selectedSeat.seatClass = seat.seatClass;
     }
@@ -92,6 +94,7 @@ export default class SeatsPageComponent implements OnInit {
   onResetSeatSelection(seat: Seat): void{
     this.seatSelectionPanel?.unselectPreviousPassengerSeat();
     seat.price = 0; seat.seatClass = 'ECONOMY'; seat.seatNumber = '';
+    this.totalSeatsPrice = this._seatsFacade.getTotalSeatsPrice(this.seatsSelection);
   }
 
   nextFlight(): void{
@@ -111,6 +114,11 @@ export default class SeatsPageComponent implements OnInit {
 
   addsSeatToBooking(): void{
     this._bookingFacade.addBookingSeats(this.seatsSelection);
+    this.redirectToBookingConfirmation();
+  }
+
+  redirectToBookingConfirmation(){
+    this._router.navigate(['/booking/summary'])
   }
 
 }
