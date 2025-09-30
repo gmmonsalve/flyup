@@ -5,13 +5,7 @@ import { BOOKING_RULES } from '@core/business/constants/bussiness.constants';
 
 export class BookingRules {
 
-   private RULES = inject<BookingRulesConfig>(BOOKING_RULES); 
-
-  validateBookingDetails(booking: Booking): void {
-    if(booking.flights.length < 1) {
-      throw new Error('At least one flight must be selected to proceed with the booking.');
-    }
-  }
+   private RULES = inject<BookingRulesConfig>(BOOKING_RULES);
 
   validateSeatSelection(booking: Booking){
     const REQUIRED_SEATS = booking.passengers.length * booking.flights.length;
@@ -26,7 +20,7 @@ export class BookingRules {
     }
   }
 
-  isFlightSelectionComplete(booking: Booking | null): boolean{//refactor
+  isFlightSelectionComplete(booking: Booking | null): boolean{
     if(!booking) return false;
     if(booking.tripType == this.RULES.TRIP_TYPE.oneWay && booking.flights.length == this.RULES.ONE_WAY_FLIGHT_NUMBER) return true;
     if(booking.tripType == this.RULES.TRIP_TYPE.roundTrip && booking.flights.length == this.RULES.ROUND_TRIP_FLIGHT_NUMBER) return true;

@@ -20,10 +20,11 @@ export class PricingBusinessRules {
     },0)) * passengerNumber;
   }
 
-  calculateBookingPrice(booking: Booking | null, passengerNumber: number): number {
-    if(!booking || !passengerNumber) return 0;
+  calculateBookingPrice(booking: Booking | null): number {
+    if(!booking) return 0;
     const seatsPrice = this.calculateTotalSeatsPrice(booking.selectedSeats);
-    const flightsPrice = this.calculateTotalFlightPrice(booking.flights, passengerNumber);
+    const flightsPrice = this.calculateTotalFlightPrice(booking.flights, booking.passengers.length);
     return seatsPrice + flightsPrice;
   }
+
 }

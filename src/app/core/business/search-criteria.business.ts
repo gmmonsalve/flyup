@@ -11,26 +11,23 @@ export class SearchCriteriaRules{
 
   constructor() { }
 
-  validateSearchCriteria(searchCriteria: SearchCriteria): Error[] | null {
+  validateSearchCriteria(searchCriteria: SearchCriteria){
 
-    const errors: Error[] = []
     const MAX_PASSENGERS = this.getMaxPassengerValue()
 
     if(searchCriteria.passengers > MAX_PASSENGERS) {
-      errors.push({title: "Search Error", description: "A maximum of 9 passengers is allowed per booking."});
+      throw new Error("A maximum of 9 passengers is allowed per booking.");
     }
 
     if(searchCriteria.origin.code == searchCriteria.destination.code){
-      errors.push({title: "Search Error", description: "Origin and Destination must be different."});
+      throw new Error( "Origin and Destination must be different.");
     }
 
     if(searchCriteria.tripType == 'round-trip' && searchCriteria.returnDate){
       if(searchCriteria.departureDate.getTime() > searchCriteria.returnDate?.getTime()){
-        errors.push({title: "Search Error", description: "Return date must be greater than departure date."});
+         throw new Error( "Return date must be greater than departure date.");
       }
     }
-
-    return errors.length > 0? errors : null;
   }
 
   getMaxPassengerValue(): number{
