@@ -1,16 +1,13 @@
 import { inject, Injectable } from '@angular/core';
-import SeatsByClassMapper from '@app/abstraction/mappers/seats.mapper';
-import { PricingBusinessRules } from '@app/core/business/pricing.business';
-import Seat from '@app/core/models/seat.model';
-import { SeatsByClassVM } from '@app/presentation/models/seats-classes.vmodel';
+import { SeatsByClassMapper } from '@abstraction/mappers/seats.mapper';
+import { PricingBusinessRules } from '@core/business/pricing.business';
+import { SeatsByClassVM } from '@presentation/models/seats-classes.vmodel';
 import { SeatsApiService } from '@core/services/api/seats-api.service';
 import { map, Observable } from 'rxjs';
-import { BookingStateService } from '@app/core/state/booking/booking-state.service';
-import { BookingRules } from '@app/core/business/booking.business';
-import Booking from '@app/core/models/booking.model';
-import Passenger from '@app/core/models/passenger.model';
-import { SeatsBusinessRules } from '@app/core/business/seats.business';
-import Flight from '@app/core/models/flight.model';
+import Passenger from '@core/models/passenger.model';
+import { SeatsBusinessRules } from '@core/business/seats.business';
+import Flight from '@core/models/flight.model';
+import Seat from '@core/models/seat.model';
 
 @Injectable({
   providedIn: 'root',
@@ -42,9 +39,6 @@ export class SeatsFacadeService {
       this._seatRules.validateSeatsContent(seatsByFlightNumber);
       return true;
     }catch(error: any){
-      if(error.name == 'E_S1'){
-        window.alert(error)
-      }
       console.error(error)
     }
     return false;
