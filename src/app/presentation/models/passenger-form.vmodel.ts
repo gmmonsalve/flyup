@@ -23,7 +23,7 @@ export interface SinglePassengerForm{
     firstName: FormControl<string | null>;
     lastName: FormControl<string | null>;
     birthDate: FormControl<Date | null>;
-    nationality: FormControl<{ code: string, title: string } | null>;
+    nationality: FormControl<string | null>;
     gender: FormControl<"Male" | "Female" | "Other" | null>;
 }
 
@@ -32,7 +32,7 @@ export interface PassengerFormValues{
         firstName: string | null;
         lastName: string | null;
         birthDate: Date | null;
-        nationality: { code: string, title: string } | null;
+        nationality: string | null;
         gender: "Male" | "Female" | "Other" | null;
     }[];
     bookingHolder: {
