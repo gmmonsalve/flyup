@@ -37,7 +37,7 @@ html, body {
     box-sizing: border-box;
     height: 100%;
     font-family: "Ubuntu", sans-serif; font-style: normal;
-    overflow: hidden; 
+    background-color: #F3F2F6;
 }
 
 .fc-primary {
@@ -119,6 +119,10 @@ fieldset{
 
 .align-self-center{
   align-self: center;
+}
+
+.align-self-end{
+  align-self: flex-end;
 }
 
 .align-items-baseline{
