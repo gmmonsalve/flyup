@@ -4,6 +4,7 @@ import { routes } from '@app/app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient } from '@angular/common/http';
 import { BOOKING_RULES } from '@core/business/constants/bussiness.constants';
+import { environment } from '@environments/environment';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -12,16 +13,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     {
       provide: BOOKING_RULES,
-      useValue: {
-        MAX_PASSENGERS: 9,
-        MIN_PASSENGERS: 1,
-        ONE_WAY_FLIGHT_NUMBER: 1,
-        ROUND_TRIP_FLIGHT_NUMBER: 2,
-        TRIP_TYPE: {
-          oneWay: "one-way",
-          roundTrip: "round-trip"
-        }
-      }
+      useValue: environment.config
     }
   ]
 };
