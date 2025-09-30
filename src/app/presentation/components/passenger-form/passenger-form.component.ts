@@ -45,7 +45,7 @@ export class PassengerFormComponent implements OnInit{
         firstName: new FormControl<string>('', Validators.required),
         lastName: new FormControl<string>('', Validators.required),
         birthDate: new FormControl<Date | null>(null, Validators.required),
-        nationality: new FormControl<{ code: string, title: string } | null>(null, Validators.required),
+        nationality: new FormControl<string | null>(null, Validators.required),
         gender: new FormControl<"Male" | "Female" | "Other" | null>(null, Validators.required),
     })
     this.passengersForm.controls.passengers.push(newPassenger)
