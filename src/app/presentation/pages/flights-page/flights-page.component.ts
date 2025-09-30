@@ -37,6 +37,7 @@ export default class FlightsPageComponent implements OnInit, OnDestroy{
     ).subscribe((params)=>{ 
       this.showFlightResults(params as SearchParams);
       this.currentSearch = params as SearchParams;
+      this._bookingFacade.resetBookingState();
     });
     this._bookingFacade.getBookingObservable().pipe(
       takeUntil(this.destroy$)
@@ -67,7 +68,7 @@ export default class FlightsPageComponent implements OnInit, OnDestroy{
   }
 
   redirectToResume(): void{
-    this._router.navigate(['booking/resume/'], { queryParams: this.currentSearch })
+    this._router.navigate(['booking/flights-resume'], { queryParams: this.currentSearch })
   }
 
   ngOnDestroy(): void {
