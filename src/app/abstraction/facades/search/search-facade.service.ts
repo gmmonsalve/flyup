@@ -5,16 +5,18 @@ import { SearchParamsMapper } from '@app/abstraction/mappers/search.mapper';
 import { SearchParams } from '@app/presentation/models/search-params.vmodel';
 import { SearchStateService } from '@core/state/search/search-state.service';
 import { Observable } from 'rxjs';
+import BookingRulesConfig from '@app/core/business/interfaces/bookingRulesConfig.interface';
+import { BOOKING_RULES } from '@app/core/business/constants/bussiness.constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SearchFacadeService {
-
-  private rules = new SearchCriteriaRules();
+ 
+  private rulesConfig = inject<BookingRulesConfig>(BOOKING_RULES);
+  private rules = new SearchCriteriaRules(this.rulesConfig);
   private _searchParamsMapper = new SearchParamsMapper();
   private _searchCriteriaStore = inject(SearchStateService);
-  private _searchState = inject(SearchStateService);
 
   getPassengerOptionsList(): number[] {
     const MAX_PASSENGERS = this.rules.getMaxPassengerValue();
@@ -44,11 +46,11 @@ export class SearchFacadeService {
   }
 
   getSearchObservable(): Observable<SearchCriteria | null>{
-    return this._searchState.criteria$;
+    return this._searchCriteriaStore.criteria$;
   }
 
   clearSearch(){
-    this._searchState.setCriteria(null);
+    this._searchCriteriaStore.setCriteria(null);
   }
 
 }

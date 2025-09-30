@@ -1,15 +1,9 @@
 import { SearchCriteria } from '@core/models/search-criteria.model';
-import { BOOKING_RULES } from '@core/business/constants/bussiness.constants';
 import BookingRulesConfig from '@core/business/interfaces/bookingRulesConfig.interface';
-import { inject } from '@angular/core';
-import { Error } from '@core/business/interfaces/error-bussiness.interface';
 
-export class SearchCriteriaRules{
+export class SearchCriteriaRules{ 
 
-  private rules = inject<BookingRulesConfig>(BOOKING_RULES); 
- 
-
-  constructor() { }
+  constructor(private rules: BookingRulesConfig){}
 
   validateSearchCriteria(searchCriteria: SearchCriteria){
 

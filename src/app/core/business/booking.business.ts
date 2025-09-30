@@ -5,7 +5,7 @@ import { BOOKING_RULES } from '@core/business/constants/bussiness.constants';
 
 export class BookingRules {
 
-   private RULES = inject<BookingRulesConfig>(BOOKING_RULES);
+ constructor(private RULES: BookingRulesConfig){}
 
   validateSeatSelection(booking: Booking){
     const REQUIRED_SEATS = booking.passengers.length * booking.flights.length;

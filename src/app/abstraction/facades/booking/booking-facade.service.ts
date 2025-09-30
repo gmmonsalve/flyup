@@ -13,15 +13,18 @@ import Passenger from '@core/models/passenger.model';
 import Booking from '@core/models/booking.model';
 import Flight from '@core/models/flight.model';
 import Seat from '@core/models/seat.model';
+import BookingRulesConfig from '@core/business/interfaces/bookingRulesConfig.interface';
+import { BOOKING_RULES } from '@core/business/constants/bussiness.constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BookingFacadeService {
- 
+
+  private rulesConfig = inject<BookingRulesConfig>(BOOKING_RULES);
   private _bookingStore: BookingStateService = inject(BookingStateService);
   private _searchStore: SearchStateService = inject(SearchStateService);
-  private _bookingBusiness: BookingRules = new BookingRules();
+  private _bookingBusiness: BookingRules = new BookingRules(this.rulesConfig);
   private _pricingBusiness = new PricingBusinessRules();
   private _bookingApi = inject(BookingApiService);
   private _bookingMapper = new BookingMapper();
